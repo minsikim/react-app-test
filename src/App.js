@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person'
+import Radium from 'radium';
+import Person from './Person/Person';
 
 class App extends Component {
   //this is special variable extended from compenent
@@ -61,6 +62,17 @@ class App extends Component {
   }
 
   render() {
+    const style = {
+      backgroundColor: 'green',
+      color: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
+    }
   //this is first way of conditionally rendering parts
     let persons = null;
   // map() executes the given function to every array value
@@ -94,15 +106,14 @@ class App extends Component {
             name={this.state.persons[3].name}
             age={this.state.persons[3].age}/> */}
         </div>
-      )
+      );
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
     }
 
-    const style = {
-      backgroundColor: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px'
-    }
     return (
       <div className="App">
         <h1>Hello it's a React App test</h1>
@@ -117,4 +128,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Radium(App);
