@@ -4,6 +4,7 @@ import Person from './Person/Person'
 
 class App extends Component {
   //this is special variable extended from compenent
+  //when ever it is changed it automatically updates the webpage
   state = {
     persons: [
       { name: 'Minsi', age: 29},
@@ -14,6 +15,17 @@ class App extends Component {
   }
 switchNameHandler = () => {
   console.log('switchNameHandler run')
+  //don't : this.state.persons[0].name = 'MinSeongKim'
+  // -> this will not work in ES6 => syntax
+  //because this refers to the function you are wrinting code in
+  this.setState({
+    persons: [
+      { name: 'SalingerMS', age: 29},
+      { name: 'MS', age: 31},
+      { name: 'Salinger', age: 21},
+      { name: 'Granma', age: 99}
+    ]
+  })
 }
 
   render() {
