@@ -7,42 +7,52 @@ class App extends Component {
   //when ever it is changed it automatically updates the webpage
   state = {
     persons: [
-      { name: 'Minsi', age: 29},
-      { name: 'MS', age: 31},
-      { name: 'Salinger', age: 21},
-      { name: 'Granma', age: 62}
+      { id:'aslkdjf', name: 'Minsi', age: 29},
+      { id:'3jk4h', name: 'MS', age: 31},
+      { id:'1ikl2jhr', name: 'Salinger', age: 21},
+      { id:'12klj3h', name: 'Granma', age: 62}
     ]
   }
-  switchNameHandler = (newName) => {
-    console.log('switchNameHandler run')
-    //don't : this.state.persons[0].name = 'MinSeongKim'
-    // -> this will not work in ES6 => syntax
-    //because this refers to the function you are wrinting code in
-    newName = newName ? newName : 'SalingerMS'
+  // switchNameHandler = (newName) => {
+  //   console.log('switchNameHandler run')
+  //   //don't : this.state.persons[0].name = 'MinSeongKim'
+  //   // -> this will not work in ES6 => syntax
+  //   //because this refers to the function you are wrinting code in
+  //   newName = newName ? newName : 'SalingerMS'
 
-    this.setState({
-      persons: [
-        { name: newName, age: 29},
-        { name: 'MS', age: 31},
-        { name: 'Salinger', age: 21},
-        { name: 'Granma', age: 99}
-      ],
-      showPersons: false
+  //   this.setState({
+  //     persons: [
+  //       { name: newName, age: 29},
+  //       { name: 'MS', age: 31},
+  //       { name: 'Salinger', age: 21},
+  //       { name: 'Granma', age: 99}
+  //     ],
+  //     showPersons: false
+  //   })
+  // }
+
+  nameChangeHandler = (event, id) => {
+    console.log('nameChangeHandler run')
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
     })
+
+    const person = {...this.state.persons[personIndex]};
+    //or const person = Object.assign({}, this.state.persons[personIndex])
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({persons: persons})
   }
 
-  nameChangeHandler = (event) => {
-    console.log('nameChangeHandler run')
-    this.setState(
-      {
-        persons: [
-          { name: 'Minsi', age: 29},
-          { name: event.target.value, age: 31},
-          { name: 'Salinger', age: 21},
-          { name: 'Granma', age: 99}
-        ]
-      }
-    )
+  deletePersonHandler = (personIndex) => {
+    const persons = this.state.persons.slice();
+    // or const persons = [...this.state.persons]
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
   }
 
   togglePersonsHandler = () => {
@@ -53,11 +63,19 @@ class App extends Component {
   render() {
   //this is first way of conditionally rendering parts
     let persons = null;
-    
+  // map() executes the given function to every array value
     if(this.state.showPersons){
       persons = (
         <div>
-          <Person
+          {this.state.persons.map((person, index)=>{
+            return <Person
+            click={()=>this.deletePersonHandler(index)}
+            name={person.name}
+            age={person.age}
+            key={person.id}
+            change={(event)=>this.nameChangeHandler(event, person.id)}/>
+          })}
+          {/* <Person
             name={this.state.persons[0].name}
             age={this.state.persons[0].age}/>
           <Person
@@ -74,7 +92,7 @@ class App extends Component {
             age={this.state.persons[2].age}>Hello is MinSeong</Person>
           <Person
             name={this.state.persons[3].name}
-            age={this.state.persons[3].age}/>
+            age={this.state.persons[3].age}/> */}
         </div>
       )
     }
@@ -92,29 +110,7 @@ class App extends Component {
         <button 
           style = {style}
           onClick={()=>this.togglePersonsHandler()}>Show</button>
-        { this.state.showPersons ? 
-        //this is second way of conditionally rendering parts
-          <div>
-            <Person
-              name={this.state.persons[0].name}
-              age={this.state.persons[0].age}/>
-            <Person
-              name={this.state.persons[1].name}
-              age={this.state.persons[1].age}
-              change={this.nameChangeHandler}/>
-            <Person
-            //if you need to pass on params on the click method you can
-            // 1. bind(this, params) or
-            // 2. ()=>function()
-            // #1 is better
-              click = {this.switchNameHandler.bind(this, 'something')}
-              name={this.state.persons[2].name}
-              age={this.state.persons[2].age}>Hello is MinSeong</Person>
-            <Person
-              name={this.state.persons[3].name}
-              age={this.state.persons[3].age}/>
-          </div> : null
-        }
+        {persons}
       </div>
     );
     // return React.createElement('div', {className:'App'}, React.createElement('h1', null, "Hello it's a React App test"));
