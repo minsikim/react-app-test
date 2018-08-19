@@ -3,10 +3,28 @@ import classes from './Person.css';
 import PropTypes from 'prop-types'
 
 class Person extends Component{
+    constructor(props){
+        super(props);
+        //from 16.3.0 and up this makes 'ref={(self)=>{this.inputElement = self}}' -> ref={this.inputElement}
+        //you also have to change 'this.inputElement.focus();' to 'this.inputElement.current.focus();'
+        //due to this.inputElement is holding different states of it(by React)
+        this.inputElement = React.createRef();
+    }
+    componentDidMount(){
+        if(this.props.position === 0){
+            this.inputElement.current.focus();
+            //do not do as follows
+            // this.inputElement.style.background = 'red'
+        }
+    }
     render(){
         return <div className={classes.Person}>
             <p onClick={this.props.click}>I'm {this.props.name}, {this.props.age} years old!</p>
-            <input onChange={this.props.change} value={this.props.name} />
+            <input 
+            ref={this.inputElement}
+            // ref={(self)=>{this.inputElement = self}}
+            onChange={this.props.change} 
+            value={this.props.name} />
         </div>
     }
 };
