@@ -115,6 +115,7 @@ class App extends Component {
     }
 
     return (
+      <StyleRoot>
       <div className="App">
         <h1>Hello it's a React App test</h1>
         <p>This is working</p>
@@ -123,6 +124,7 @@ class App extends Component {
           onClick={()=>this.togglePersonsHandler()}>Show</button>
         {persons}
       </div>
+      </StyleRoot>
     );
     // return React.createElement('div', {className:'App'}, React.createElement('h1', null, "Hello it's a React App test"));
   }
