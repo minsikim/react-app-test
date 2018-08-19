@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import classes from './App.css';
 // import Radium from 'radium';
-import Person from './Person/Person';
+import Persons from './Persons/Persons';
+import Cockpit from './Cockpit/Cockpit';
 // import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 
 class App extends Component {
@@ -15,23 +16,6 @@ class App extends Component {
       { id:'12klj3h', name: 'Granma', age: 62}
     ]
   }
-  // switchNameHandler = (newName) => {
-  //   console.log('switchNameHandler run')
-  //   //don't : this.state.persons[0].name = 'MinSeongKim'
-  //   // -> this will not work in ES6 => syntax
-  //   //because this refers to the function you are wrinting code in
-  //   newName = newName ? newName : 'SalingerMS'
-
-  //   this.setState({
-  //     persons: [
-  //       { name: newName, age: 29},
-  //       { name: 'MS', age: 31},
-  //       { name: 'Salinger', age: 21},
-  //       { name: 'Granma', age: 99}
-  //     ],
-  //     showPersons: false
-  //   })
-  // }
 
   nameChangeHandler = (event, id) => {
     console.log('nameChangeHandler run')
@@ -47,7 +31,7 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({persons: persons})
+    this.setState({persons: persons});
   }
 
   deletePersonHandler = (personIndex) => {
@@ -62,6 +46,7 @@ class App extends Component {
     this.setState({showPersons: !doesShow})
   }
 
+
   render() {
     const style = {
       backgroundColor: 'green',
@@ -74,54 +59,26 @@ class App extends Component {
         color: 'black'
       }
     }
-  //this is first way of conditionally rendering parts
+    style.backgroundColor = 'red';
+    style[':hover'] = {
+      backgroundColor: 'salmon',
+      color: 'black'
+    }
     let persons = null;
-  // map() executes the given function to every array value
     if(this.state.showPersons){
       persons = (
-        <div>
-          {this.state.persons.map((person, index)=>{
-            return <Person
-            click={()=>this.deletePersonHandler(index)}
-            name={person.name}
-            age={person.age}
-            key={person.id}
-            change={(event)=>this.nameChangeHandler(event, person.id)}/>
-          })}
-          {/* <Person
-            name={this.state.persons[0].name}
-            age={this.state.persons[0].age}/>
-          <Person
-            name={this.state.persons[1].name}
-            age={this.state.persons[1].age}
-            change={this.nameChangeHandler}/>
-          <Person
-          //if you need to pass on params on the click method you can
-          // 1. bind(this, params) or
-          // 2. ()=>function()
-          // #1 is better
-            click = {this.switchNameHandler.bind(this, 'something')}
-            name={this.state.persons[2].name}
-            age={this.state.persons[2].age}>Hello is MinSeong</Person>
-          <Person
-            name={this.state.persons[3].name}
-            age={this.state.persons[3].age}/> */}
-        </div>
-      );
-      style.backgroundColor = 'red';
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
+        <Persons
+        persons={this.state.persons}
+        clicked={this.deletePersonHandler}
+        changed={this.nameChangeHandler}/>
+      )
     }
-
     return (
       <div className={classes.App}>
-        <h1>Hello it's a React App test</h1>
-        <p>This is working</p>
-        <button 
-          style = {style}
-          onClick={()=>this.togglePersonsHandler()}>Show</button>
+        <Cockpit
+        showPersons={this.state.showPersons}
+        persons={this.state.persons}
+        clicked={this.togglePersonsHandler}/>
         {persons}
       </div>
     );
