@@ -5,6 +5,8 @@ import Persons from './Persons/Persons';
 import Cockpit from './Cockpit/Cockpit';
 // import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 
+export const AuthContext = React.createContext(false);
+
 class App extends Component {
   //this is special variable extended from compenent
   //when ever it is changed it automatically updates the webpage
@@ -16,7 +18,8 @@ class App extends Component {
       { id:'12klj3h', name: 'Granma', age: 62}
     ],
     showPersons: false,
-    toggleClicked: 0
+    toggleClicked: 0,
+    authenticated: false
   }
 
   nameChangeHandler = (event, id) => {
@@ -58,7 +61,10 @@ class App extends Component {
       })
     }
 
-
+    loginHandler = () => {
+      console.log('login')
+      this.setState({authenticated: true});
+    }
 
   render() {
     const style = {
@@ -83,17 +89,23 @@ class App extends Component {
         <Persons
         persons={this.state.persons}
         clicked={this.deletePersonHandler}
-        changed={this.nameChangeHandler}/>
+        changed={this.nameChangeHandler}
+        // authenticated={this.state.authenticated}
+        />
       )
     }
     return (
       <div className={classes.App}>
         <Cockpit
-        appTitle={this.props.appTitle}
-        showPersons={this.state.showPersons}
-        persons={this.state.persons}
-        clicked={this.togglePersonsHandler}/>
+          appTitle={this.props.appTitle}
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler}
+          login={this.loginHandler}/>
+        <AuthContext.Provider
+          value={this.state.authenticated}>
         {persons}
+        </AuthContext.Provider>
       </div>
     );
     // return React.createElement('div', {className:'App'}, React.createElement('h1', null, "Hello it's a React App test"));

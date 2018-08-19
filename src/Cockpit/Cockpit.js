@@ -15,6 +15,10 @@ const cockpit = (props) => {
             className = {btnClass}
             style = {props.style}
             onClick={props.clicked}>Show</button>
+            <button 
+            className = {btnClass}
+            style = {props.style}
+            onClick={props.login}>Login</button>
         </div>
     );
 }
