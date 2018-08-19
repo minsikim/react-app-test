@@ -9,7 +9,7 @@ const cockpit = (props) => {
     }
     return (
         <div className={classes.Cockpit}>
-            <h1>Hello it's a React App test</h1>
+            <h1>{props.appTitle}</h1>
             <p>This is working</p>
             <button 
             className = {btnClass}
