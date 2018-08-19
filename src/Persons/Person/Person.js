@@ -11,6 +11,7 @@ class Person extends Component{
     }
 };
 //타입스크립트 같은 역할 하면서 받는 자료형을 에러로 띄워줌 되면 되는데 에러로 알려줌
+//https://reactjs.org/docs/typechecking-with-proptypes.html 더 많은 프롭타입
 Person.propTypes = {
     click: PropTypes.func,
     name: PropTypes.string,
