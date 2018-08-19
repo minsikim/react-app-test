@@ -14,7 +14,9 @@ class App extends Component {
       { id:'3jk4h', name: 'MS', age: 31},
       { id:'1ikl2jhr', name: 'Salinger', age: 21},
       { id:'12klj3h', name: 'Granma', age: 62}
-    ]
+    ],
+    showPersons: false,
+    toggleClicked: 0
   }
 
   nameChangeHandler = (event, id) => {
@@ -40,11 +42,22 @@ class App extends Component {
     persons.splice(personIndex, 1);
     this.setState({persons: persons})
   }
+    //this is a bad way of manipulating state, because if somehow 
+    // togglePersonsHandler = () => {
+    //   const doesShow = this.state.showPersons;
+    //   this.setState({showPersons: !doesShow, toggleClicked: this.state.toggleClicked + 1})
+    // }
+    //-> this is the right way. setState can get a function param that has prevState, props param
+    togglePersonsHandler = () => {
+      const doesShow = this.state.showPersons;
+      this.setState((prevState, props)=>{
+        return {
+          showPersons: !doesShow,
+          toggleClicked: prevState.toggleClicked + 1
+        }
+      })
+    }
 
-  togglePersonsHandler = () => {
-    const doesShow = this.state.showPersons;
-    this.setState({showPersons: !doesShow})
-  }
 
 
   render() {
